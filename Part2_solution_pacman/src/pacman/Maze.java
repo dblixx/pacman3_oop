@@ -1,7 +1,12 @@
 package pacman;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import pacman.wormholes.ArrivalPortal;
+import pacman.wormholes.DeparturePortal;
+import pacman.wormholes.Wormhole;
 
 public class Maze {
 	
@@ -10,6 +15,9 @@ public class Maze {
 	private PacMan pacMan;
 	private Ghost[] ghosts;
 	private FoodItem[] foodItems;
+	private List<DeparturePortal> departurePortals;
+	private List<ArrivalPortal> arrivalPortals;
+	private List<Wormhole> wormholes = new ArrayList<>();
 	
 	public MazeMap getMap() { return map; }
 	
@@ -19,12 +27,20 @@ public class Maze {
 	
 	public FoodItem[] getFoodItems() { return foodItems.clone(); }
 	
-	public Maze(Random random, MazeMap map, PacMan pacMan, Ghost[] ghosts, FoodItem[] foodItems) {
+	public DeparturePortal[] getDeparturePortal() { return (DeparturePortal[]) departurePortals.toArray(); }
+	
+	public ArrivalPortal[] getArrivalPortal() { return (ArrivalPortal[]) arrivalPortals.toArray(); }
+	
+	public Wormhole[] getWormholes(){ return (Wormhole[]) wormholes.toArray(); }
+	
+	public Maze(Random random, MazeMap map, PacMan pacMan, Ghost[] ghosts, FoodItem[] foodItems, DeparturePortal[] dps, ArrivalPortal[] aps) {
 		this.random = random;
 		this.map = map;
 		this.pacMan = pacMan;
 		this.ghosts = ghosts.clone();
 		this.foodItems = foodItems.clone();
+		this.departurePortals = Arrays.asList(dps);
+		this.arrivalPortals = Arrays.asList(aps);
 	}
 	
 	public boolean isCompleted() {
@@ -72,6 +88,14 @@ public class Maze {
 			checkFoodItemCollision(newSquare);
 			checkPacManDamage();
 		}
+	}
+	
+	public void addWormHole(Wormhole wormhole) {
+		if(!(this.departurePortals.contains(wormhole.getDeparturePortal())))
+			throw new IllegalArgumentException("The departure portals are not consistent.");
+		if(!(this.arrivalPortals.contains(wormhole.getArrivalPortal())))
+			throw new IllegalArgumentException("The arrival portals are not consistent.");
+		this.wormholes.add(wormhole);
 	}
 	
 }
