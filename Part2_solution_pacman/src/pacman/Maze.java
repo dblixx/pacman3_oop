@@ -27,9 +27,9 @@ public class Maze {
 	
 	public FoodItem[] getFoodItems() { return foodItems.clone(); }
 	
-	public DeparturePortal[] getDeparturePortal() { return (DeparturePortal[]) departurePortals.toArray(); }
+	public DeparturePortal[] getDeparturePortals() { return (DeparturePortal[]) departurePortals.toArray(); }
 	
-	public ArrivalPortal[] getArrivalPortal() { return (ArrivalPortal[]) arrivalPortals.toArray(); }
+	public ArrivalPortal[] getArrivalPortals() { return (ArrivalPortal[]) arrivalPortals.toArray(); }
 	
 	public Wormhole[] getWormholes(){ return (Wormhole[]) wormholes.toArray(); }
 	
@@ -84,13 +84,21 @@ public class Maze {
 	public void movePacMan(Direction direction) {
 		Square newSquare = pacMan.getSquare().getNeighbor(direction);
 		if (newSquare.isPassable()) {
+			for(DeparturePortal dp: getDeparturePortal()) {
+				if(dp.getSquare() == newSquare) 
+					if(!dp.getWormholes().isEmpty()) {
+						int nbWormhole = dp.getWormholes().size(); 
+						Wormhole chosenWormhole = (Wormhole) dp.getWormholes().toArray()[random.nextInt(nbWormhole)];
+						newSquare = chosenWormhole.getArrivalPortal().getSquare();
+					}
+			}
 			pacMan.setSquare(newSquare);
 			checkFoodItemCollision(newSquare);
 			checkPacManDamage();
 		}
 	}
 	
-	public void addWormHole(Wormhole wormhole) {
+	public void addWormhole(Wormhole wormhole) {
 		if(!(this.departurePortals.contains(wormhole.getDeparturePortal())))
 			throw new IllegalArgumentException("The departure portals are not consistent.");
 		if(!(this.arrivalPortals.contains(wormhole.getArrivalPortal())))

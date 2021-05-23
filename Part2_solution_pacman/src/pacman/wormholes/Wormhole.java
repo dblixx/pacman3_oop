@@ -13,9 +13,9 @@ public class Wormhole {
 	
 	public void setDeparturePortal(DeparturePortal dp) { this.dp = dp; }
 	
-	public Wormhole(ArrivalPortal ap, DeparturePortal dp) {
-		this.ap = ap;
+	public Wormhole(DeparturePortal dp, ArrivalPortal ap) {
 		this.dp = dp;
+		this.ap = ap;
 	}
 	
 }
