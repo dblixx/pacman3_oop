@@ -1,5 +1,6 @@
 package pacman.wormholes;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import pacman.Square;
@@ -7,7 +8,7 @@ import pacman.Square;
 public class DeparturePortal {
 
 	Square departSquare;
-	Set<Wormhole> wormholes;
+	Set<Wormhole> wormholes = new HashSet<>();
 	
 	public Square getSquare() { return departSquare;}
 	
