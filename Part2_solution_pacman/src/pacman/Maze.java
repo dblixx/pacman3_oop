@@ -27,11 +27,11 @@ public class Maze {
 	
 	public FoodItem[] getFoodItems() { return foodItems.clone(); }
 	
-	public DeparturePortal[] getDeparturePortals() { return (DeparturePortal[]) departurePortals.toArray(); }
+	public DeparturePortal[] getDeparturePortals() { return (DeparturePortal[]) departurePortals.toArray(new DeparturePortal[0]); }
 	
-	public ArrivalPortal[] getArrivalPortals() { return (ArrivalPortal[]) arrivalPortals.toArray(); }
+	public ArrivalPortal[] getArrivalPortals() { return (ArrivalPortal[]) arrivalPortals.toArray(new ArrivalPortal[0]); }
 	
-	public Wormhole[] getWormholes(){ return (Wormhole[]) wormholes.toArray(); }
+	public Wormhole[] getWormholes(){ return (Wormhole[]) wormholes.toArray(new Wormhole[0]); }
 	
 	public Maze(Random random, MazeMap map, PacMan pacMan, Ghost[] ghosts, FoodItem[] foodItems, DeparturePortal[] dps, ArrivalPortal[] aps) {
 		this.random = random;
@@ -84,13 +84,14 @@ public class Maze {
 	public void movePacMan(Direction direction) {
 		Square newSquare = pacMan.getSquare().getNeighbor(direction);
 		if (newSquare.isPassable()) {
-			for(DeparturePortal dp: getDeparturePortal()) {
-				if(dp.getSquare() == newSquare) 
-					if(!dp.getWormholes().isEmpty()) {
-						int nbWormhole = dp.getWormholes().size(); 
-						Wormhole chosenWormhole = (Wormhole) dp.getWormholes().toArray()[random.nextInt(nbWormhole)];
+			for(DeparturePortal dp: departurePortals) {
+				if(dp.getSquare().equals(newSquare)) {
+					if(!(dp.getWormholes().isEmpty())) {
+						Wormhole[] wormholeArray = (Wormhole[]) dp.getWormholes().toArray(new Wormhole[0]);
+						Wormhole chosenWormhole = wormholeArray[random.nextInt(wormholeArray.length)];
 						newSquare = chosenWormhole.getArrivalPortal().getSquare();
 					}
+				}
 			}
 			pacMan.setSquare(newSquare);
 			checkFoodItemCollision(newSquare);
