@@ -90,6 +90,7 @@ public class Maze {
 						Wormhole[] wormholeArray = (Wormhole[]) dp.getWormholes().toArray(new Wormhole[0]);
 						Wormhole chosenWormhole = wormholeArray[random.nextInt(wormholeArray.length)];
 						newSquare = chosenWormhole.getArrivalPortal().getSquare();
+						checkPacManDamage();
 					}
 				}
 			}

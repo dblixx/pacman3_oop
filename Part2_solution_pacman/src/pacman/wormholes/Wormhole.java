@@ -9,13 +9,23 @@ public class Wormhole {
 	
 	public ArrivalPortal getArrivalPortal() { return ap; }
 	
-	public void setArrivalPortal(ArrivalPortal ap) { this.ap = ap; }
+	public void setArrivalPortal(ArrivalPortal ap) { 
+		this.ap.wormholes.remove(this);
+		this.ap = ap; 
+		ap.wormholes.add(this);
+	}
 	
-	public void setDeparturePortal(DeparturePortal dp) { this.dp = dp; }
+	public void setDeparturePortal(DeparturePortal dp) { 
+		this.dp.wormholes.remove(this);
+		this.dp = dp; 
+		dp.wormholes.add(this);
+	}
 	
 	public Wormhole(DeparturePortal dp, ArrivalPortal ap) {
 		this.dp = dp;
 		this.ap = ap;
+		dp.wormholes.add(this);
+		ap.wormholes.add(this);
 	}
 	
 }
