@@ -1,5 +1,11 @@
 package pacman.wormholes;
 
+/**
+ * @invar | getArrivalPortal() != null
+ * @invar | getArrivalPortal().getWormholes().contains(this)
+ * @invar | getDeparturePortal() != null
+ * @invar | getDeparturePortal().getWormholes().contains(this)
+ */
 public class Wormhole {
 	
 	/**
