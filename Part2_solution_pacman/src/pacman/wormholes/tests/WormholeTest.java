@@ -1,4 +1,4 @@
-package pacman.tests;
+package pacman.wormholes.tests;
 
 import org.junit.jupiter.api.Test;
 
